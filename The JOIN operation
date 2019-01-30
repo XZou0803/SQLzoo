@@ -1,1 +1,16 @@
+#1
+SELECT matchid, player FROM goal 
+  WHERE teamid = 'GER'
+
+#2
+SELECT id,stadium,team1,team2
+  FROM game
+where id=1012
+
+#3
+SELECT player,teamid, mdate,stadium
+FROM game
+  JOIN goal ON (id=matchid AND teamid='GER')
+  
+#4
 
