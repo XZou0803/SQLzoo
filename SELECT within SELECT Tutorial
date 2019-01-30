@@ -1,0 +1,64 @@
+#1
+SELECT name FROM world
+  WHERE population >
+     (SELECT population FROM world
+      WHERE name='Russia')
+      
+#2
+select name 
+from world
+where continent = 'Europe' 
+and gdp/population > (select gdp/population from world where name = 'United Kingdom')
+
+#3
+SELECT name,continent
+FROM world
+WHERE continent IN (
+  SELECT continent
+  FROM world
+  WHERE name IN ('Australia','Argentina'))
+ORDER BY name
+
+
+#4
+select name, population
+from world
+where population > (select population from world where name ='Canada')
+ and population < (select population from world where name ='Poland')
+ 
+ #5
+ SELECT name, CONCAT(ROUND(population/(SELECT population FROM world WHERE name = 'Germany'), 0), %)
+FROM world
+WHERE continent = 'Europe'
+
+#6
+select name
+from world
+where gdp >= all (select gdp from world where gdp >0 and continent = 'Europe')
+and continent != 'Europe'
+
+
+#7
+SELECT continent, name, area
+FROM world x
+WHERE area >= ALL
+    (SELECT area FROM world y
+    WHERE y.continent=x.continent
+    AND area>0)
+##In the example provided, you would say “select the country details from world where the population is greater than or equal to the population of all countries where the continent is the same”.
+
+#8
+SELECT continent, name
+FROM world x
+WHERE name <= ALL(SELECT name FROM world y WHERE y.continent = x.continent)
+
+#9
+SELECT name, continent, population
+FROM world x
+WHERE 25000000  > ALL(SELECT population FROM world y WHERE x.continent = y.continent AND y.population > 0)
+
+#10
+ELECT name, continent
+FROM world x
+WHERE population > ALL(SELECT population*3 FROM world y WHERE x.continent = y.continent AND population > 0 AND y.name != x.name)
+
